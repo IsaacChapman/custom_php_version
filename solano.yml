@@ -17,7 +17,11 @@ hooks:
     link_php() {
       # Make php binaries appear early in $PATH
       mkdir -p $HOME/bin
-      (cd $HOME/bin && for f in `find /usr/local/php/php-5.6.30/bin/ -type f`; do ln -sf $f; done)
+      (
+        cd $HOME/bin
+        for f in `find /usr/local/php/php-5.6.30/bin/ -type f`; do ln -sf $f; done
+        for f in `find /usr/local/php/php-5.6.30/bin/ -type l`; do ln -sf $f; done
+      )
     }
     if dpkg --compare-versions `php --version | head -n 1 | awk '{print $2}'` ne 5.6.30; then
       install_php
