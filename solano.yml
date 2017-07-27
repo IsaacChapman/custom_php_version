@@ -8,7 +8,7 @@ hooks:
   pre_setup: |
     set -o errexit -o pipefail  # Exit on error
 
-    # Install yarn if desired version is not already installed
+    # Install/use specific version of php if it isn't already available
     install_php() {
       wget -O $TMPDIR/solano-php-5.6.30.tar.gz https://solano-backup.s3.amazonaws.com/src-objects/solano-php-5.6.30.tar.gz
       tar xzf $TMPDIR/solano-php-5.6.30.tar.gz
@@ -26,10 +26,11 @@ hooks:
       link_php
     fi
     php --version
+    sudo `which composer` self-update
 
 tests:
-  - php --version
-  - composer --version
+  - which php && php --version
+  - which composer && composer --version
   - php -i
   - php -m
 
